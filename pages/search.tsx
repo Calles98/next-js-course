@@ -20,6 +20,16 @@ const SearchNewsPage = () => {
                 setSearchResults(null);
                 setSearchResultsLoadingIsError(false);
                 setSearchResultsLoading(true);
+
+                const response = await fetch("/api/search-news?q=" + searchQuery);
+                const articles: NewsArticle[] = await response.json();
+                setSearchResults(articles);
+            } catch (error) {
+                console.error(error);
+                setSearchResultsLoadingIsError(true);
+            } finally {
+                setSearchResultsLoading(false);
+
                 const response = await fetch("/api/search-news?q=" + searchQuery); 
                 const articles: NewsArticle[] = await response.json(); 
                 setSearchResults(articles);
@@ -29,9 +39,9 @@ const SearchNewsPage = () => {
                 
             } finally {
                 setSearchResultsLoading(false); 
+
             }
         }
-        
     }
 
     return ( 
