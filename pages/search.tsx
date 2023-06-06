@@ -14,9 +14,20 @@ const SearchNewsPage = () => {
         const searchQuery = formData.get("searchQuery")?.toString().trim(); 
 
         if (searchQuery) {
-            alert(searchQuery);
+            try {
+                setSearchResults(null);
+                setSearchResultsLoadingIsError(false);
+                setSearchResultsLoading(true);
+                const response = await fetch("/api/search-news?q=" + searchQuery);
+                const articles: NewsArticle[] = await response.json();
+                setSearchResults(articles);
+            } catch (error) {
+                console.error(error);
+                setSearchResultsLoadingIsError(true);
+            } finally {
+                setSearchResultsLoading(false);
+            }
         }
-        
     }
 
     return ( 
