@@ -1,6 +1,6 @@
-import Head from 'next/head'
 import NewsArticleGrid from "@/components/NewsArticleGrid";
 import { NewsArticle } from "@/models/NewsArticles";
+import Head from "next/head";
 import { FormEvent, useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 
@@ -20,7 +20,6 @@ const SearchNewsPage = () => {
                 setSearchResults(null);
                 setSearchResultsLoadingIsError(false);
                 setSearchResultsLoading(true);
-
                 const response = await fetch("/api/search-news?q=" + searchQuery);
                 const articles: NewsArticle[] = await response.json();
                 setSearchResults(articles);
@@ -29,17 +28,6 @@ const SearchNewsPage = () => {
                 setSearchResultsLoadingIsError(true);
             } finally {
                 setSearchResultsLoading(false);
-
-                const response = await fetch("/api/search-news?q=" + searchQuery); 
-                const articles: NewsArticle[] = await response.json(); 
-                setSearchResults(articles);
-            } catch (error) {
-                console.error(error);
-                setSearchResultsLoadingIsError(true); 
-                
-            } finally {
-                setSearchResultsLoading(false); 
-
             }
         }
     }
@@ -49,7 +37,6 @@ const SearchNewsPage = () => {
             <Head>
                 <title key="title">Search News - NextJS News App</title>
             </Head>
-        
             <main>
                 <h1>Search News</h1>
                 <Form onSubmit={handleSubmit}>
@@ -62,13 +49,11 @@ const SearchNewsPage = () => {
                 <div className="d-flex flex-column align-items-center">
                     {searchResultsLoading && <Spinner animation="border" />}
                     {searchResultsLoadingIsError && <p>Something went wrong. Please try again</p>}
-                    {searchResults?.length == 0 && <p>Nothing found. Try a different query</p>}
+                    {searchResults?.length === 0 && <p>Nothing foung. Try searching again.</p>}
                     {searchResults && <NewsArticleGrid articles={searchResults} />}
                 </div>
-            </main> 
-            
+            </main>
         </>
-       
      );
 }
  
